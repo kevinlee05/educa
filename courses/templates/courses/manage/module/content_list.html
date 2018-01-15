@@ -11,8 +11,7 @@
         <h3>Modules</h3>
         <ul id="modules">
         {% for m in course.modules.all %}
-            <li data-id="{{ m.id }}" {% if m == module %}
-            class="selected"{% endif %}>
+            <li data-id="{{ m.id }}" {% if m == module %} class="selected" {% endif %}>
             <a href="{% url "module_content_list" m.id %}">
             <span>
             Module <span class="order">{{ m.order|add:1 }}</span>
@@ -57,3 +56,44 @@
     </div>
 {% endwith %}
 {% endblock %}
+
+{% block domready %}
+    $('#modules').sortable({
+        stop: function(event, ui) {
+            modules_order = {};
+            $('#modules').children().each(function(){
+                // update the order field
+                $(this).find('.order').text($(this).index() + 1);
+                // associate the module's id with its order
+                modules_order[$(this).data('id')] = $(this).index();
+            });
+            $.ajax({
+                type: 'POST',
+                url: '{% url "module_order" %}',
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                data: JSON.stringify(modules_order)
+            });
+        }
+    });
+    $('#module-contents').sortable({
+        stop: function(event, ui) {
+            contents_order = {};
+            $('#module-contents').children().each(function(){
+                // associate the module's id with its order
+                contents_order[$(this).data('id')] = $(this).index();
+            });
+            $.ajax({
+                type: 'POST',
+                url: '{% url "content_order" %}',
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                data: JSON.stringify(contents_order),
+            });
+        }
+    });
+{% endblock %}
+
+
+
+
