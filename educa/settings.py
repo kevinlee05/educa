@@ -57,6 +57,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    #'courses.middleware.SubdomainCourseMiddleware',
 )
 
 ROOT_URLCONF = 'educa.urls'
@@ -131,7 +132,7 @@ REST_FRAMEWORK = {
     ]
 }
 
-
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
 
