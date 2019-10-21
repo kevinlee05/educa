@@ -4,7 +4,7 @@ chardet==3.0.4
 Django==1.8.6
 django-braces==1.8.1
 django-embed-video==1.0.0
-djangorestframework==3.2.3
+djangorestframework==3.9.1
 idna==2.6
 Pillow==2.9.0
 requests==2.18.4
